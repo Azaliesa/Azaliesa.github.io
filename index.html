@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Bento Grid - Plant Science</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset and Global Styles */
+        :root {
+            --color-white: #ffffff;
+            --color-light-grey: #f8f9fa;
+            --color-mid-grey: #e9ecef;
+            --color-dark-grey: #6c757d;
+            /* Updated Accent Color: Deep Ocean Blue */
+            --color-accent: #004d99; /* Deep Ocean Blue */
+            --font-family: 'Inter', sans-serif;
+            --border-radius: 12px;
+            --padding-base: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--color-light-grey);
+            color: #343a40;
+            line-height: 1.6;
+            padding: var(--padding-base);
+        }
+
+        /* --- Bento Grid Layout --- */
+        .bento-grid {
+            display: grid;
+            gap: 16px; /* Gap between grid items */
+            max-width: 1200px;
+            margin: 0 auto;
+            grid-template-columns: repeat(3, 1fr); /* Default desktop: 3 equal columns */
+            grid-auto-rows: minmax(150px, auto); /* Minimum height for rows */
+        }
+
+        /* Card Placement/Sizing (Desktop) */
+        .card-1 {
+            /* Profile: Large Box (2x2) */
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        .card-2 {
+            /* Location: Small Box (1x1) */
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+        .card-3 {
+            /* Tech Stack: Medium Box (1x1, placed under Card 2) */
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+        .card-4 {
+            /* Case Study: Medium Box (1x1, next to Card 3) */
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+        .card-5 {
+            /* Hobby: Small Box (1x1, next to Card 4) */
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+        .card-6 {
+            /* Playlist: Wide Box (3x1) at the bottom */
+            grid-column: 1 / -1; /* Span all columns */
+            grid-row: span 1;
+        }
+
+        /* --- Card Styles --- */
+        .bento-card {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-mid-grey);
+            border-radius: var(--border-radius);
+            padding: var(--padding-base);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- Typography and Element Styling --- */
+        h1 {
+            font-size: 2.5em;
+            font-weight: 800;
+            color: #212529;
+            margin-bottom: 0.2em;
+        }
+        h2 {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-bottom: 0.5em;
+        }
+        h3 {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #495057;
+            margin-bottom: 0.5em;
+        }
+        p {
+            color: var(--color-dark-grey);
+            font-size: 1em;
+            margin-bottom: 0.5em;
+        }
+        
+        /* New Tagline Style */
+        .tagline {
+            font-size: 1.1em;
+            font-style: italic;
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        .social-links a {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 500;
+            margin-right: 15px;
+            transition: color 0.2s ease;
+        }
+        .social-links a:hover {
+            color: #003366; /* Darker blue on hover */
+            text-decoration: underline;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: var(--color-mid-grey);
+            color: #495057;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .card-header {
+            font-size: 0.9em;
+            text-transform: uppercase;
+            color: var(--color-dark-grey);
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        /* Card 1 Specific Styling */
+        .card-1 .content-area {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+        .card-1 .info {
+            margin-bottom: 20px;
+        }
+
+        /* Card 6 Specific Styling (Wide Music Player) */
+        .card-6 {
+            text-align: center;
+        }
+        .card-6 .placeholder {
+            background-color: var(--color-mid-grey);
+            color: var(--color-dark-grey);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* --- Mobile Responsiveness (Vertical Stacking) --- */
+        @media (max-width: 768px) {
+            .bento-grid {
+                /* Mobile: Single column (vertical stack) */
+                grid-template-columns: 1fr;
+                grid-auto-rows: auto; /* Auto height for stacking */
+            }
+
+            /* Reset all desktop grid-spans */
+            .bento-card {
+                grid-column: span 1 !important;
+                grid-row: span 1 !important;
+                min-height: 180px; /* Ensure a decent height on mobile */
+            }
+
+            .card-1 h1 {
+                font-size: 2em;
+            }
+            .card-1 h2 {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bento-grid">
+
+        <div class="bento-card card-1">
+            <div class="content-area">
+                <div class="info">
+                    <p class="card-header">Student Profile</p>
+                    <h1>AZALIESA SUFIA</h1>
+                    <p class="tagline">'Enhancing crop health through smart monitoring.'</p>
+                    <h2>B.Sc. Plant Science</h2>
+                    <p><strong>Year:</strong> Year 1</p>
+                </div>
+                <div class="social-links">
+                    <a href="#" target="_blank">LinkedIn</a>
+                    <a href="#" target="_blank">GitHub</a>
+                    <a href="#" target="_blank">UMT Portal</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="bento-card card-2">
+            <p class="card-header">Current Location</p>
+            <h3>UMT, Kuala Nerus</h3>
+            <p id="current-time">Loading Time...</p>
+        </div>
+
+        <div class="bento-card card-3">
+            <p class="card-header">Core Expertise</p>
+            <h3>Digital Agriculture & Data</h3>
+            <div class="tags-container">
+                <span class="tag">IoT for Agriculture</span>
+                <span class="tag">Plant Pathology Basics</span>
+                <span class="tag">Data Analysis (Excel)</span>
+                <span class="tag">Sensor & Image-Based Monitoring</span>
+            </div>
+        </div>
+
+        <div class="bento-card card-4">
+            <p class="card-header">Case Study (Precision Agriculture)</p>
+            <h3>Smart Crop Disease Monitoring System</h3>
+            <p>Developing a system using sensors and image analysis to detect early signs of crop diseases. </p>
+        </div>
+
+        <div class="bento-card card-5">
+            <p class="card-header">Fieldwork & Recharge</p>
+            <h3>Field observation of crops & evening walks</h3>
+            <p>Practical assessment of plant health and reflection time at Pantai UMT.</p>
+        </div>
+
+        <div class="bento-card card-6">
+            <p class="card-header">Study Playlist</p>
+            <div class="placeholder">
+                [Placeholder: Embedded Music Player Widget]
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Simple script to display the current local time dynamically
+        function updateTime() {
+            const now = new Date();
+            // Format time as HH:MM:SS AM/PM
+            const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+            document.getElementById('current-time').textContent = timeString + " (Kuala Nerus)";
+        }
+        
+        // Update immediately and then every second
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+
+</body>
+</html>
